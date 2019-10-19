@@ -1,0 +1,39 @@
+#!/usr/bin/env groovy
+
+import java.net.URL
+import hudson.model.*
+
+node{
+    stage('Git Checkout')
+    {
+    git 'https://github.com/srinathsoundararajan/DevOpsClassCodes.git'
+    }
+    stage('Compile')
+    {
+        withMaven(maven:'MavenTesting')
+        {
+        sh 'mvn compile'
+        }
+          }
+    stage('Test')
+    {
+        withMaven(maven:'MavenTesting')
+        {
+            try
+            {
+        sh 'mvn test'
+            }
+            finally
+            {
+                junit 'target/surefire-reports/*.xml'
+            }
+        }
+          }
+          stage('Package')
+    {
+        withMaven(maven:'MavenTesting')
+        {
+        sh 'mvn package'
+        }
+          }
+}
