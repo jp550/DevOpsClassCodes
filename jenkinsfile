@@ -2,7 +2,7 @@
 
 import java.net.URL
 import hudson.model.*
-
+//added comment for poll scm
 node{
     stage('Git Checkout')
     {
